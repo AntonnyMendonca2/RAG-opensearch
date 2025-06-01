@@ -1,25 +1,39 @@
 from elasticsearch import Elasticsearch, helpers
 from dotenv import load_dotenv
 import os
+import logging
 load_dotenv()
+# Configura o logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 class OpenSearchIterations:
     def __init__(self):
-        self.index_name = os.getenv("index_name")
-        self.elasticsearch_url = os.getenv("elasticsearch_url")
-        self.elasticsearch_apikey = os.getenv("elasticsearch_apikey")
+        try:
+            self.index_name = os.getenv("index_name")
+            self.elasticsearch_url = os.getenv("elasticsearch_url")
+            self.elasticsearch_apikey = os.getenv("elasticsearch_apikey")
 
-        self.client = Elasticsearch(
-            self.elasticsearch_url,
-            api_key=self.elasticsearch_apikey
-        )
+            if not self.elasticsearch_url or not self.elasticsearch_apikey:
+                raise ValueError("Variáveis de ambiente faltando: 'elasticsearch_url' ou 'elasticsearch_apikey'")
 
-        self.index_source_fields = {
-            f"{self.index_name}": [
-                "conteudo",
-                "titulo"
-            ]
-        }
+            logger.info(f"Inicializando Elasticsearch com URL: {self.elasticsearch_url}")
+
+            self.client = Elasticsearch(
+                self.elasticsearch_url,
+                api_key=self.elasticsearch_apikey
+            )
+
+            self.index_source_fields = {
+                f"{self.index_name}": [
+                    "conteudo",
+                    "titulo"
+                ]
+            }
+            logger.info("Conexão com Elasticsearch estabelecida com sucesso.")
+        except Exception as e:
+            logger.error("Erro ao inicializar o cliente Elasticsearch", exc_info=True)
+            raise e
 
     def creating_map(self):
         self.client.indices.create(

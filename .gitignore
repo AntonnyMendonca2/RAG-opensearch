@@ -1,2 +1,76 @@
+# Environment Variables
 .env
-.venv
+.env.*
+!*.env.example
+!*.env.json.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node/React
+node_modules/
+dist/
+build/
+*.pdf
+.aws-sam
+env.json
+# Amplify/CI
+amplify.yml
+.amplify.yml
+!*.amplify.yml.example
+
+# AWS/SAM
+.env.json
+!*.env.json.example
+samconfig.toml
+
+template.yaml
+!.template.yaml.example
+
+# IDE/OS
+.DS_Store
+Thumbs.db
+.vscode/
+!.vscode/extensions.json
+.idea
+
+# Outros arquivos sensíveis
+*.pem
+*.key
+*.crt
+*.pfx
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testes e dados
+/tests
+/data
+
+# Outras configs
+*.local
+
+dist-ssr
+
+# Não subir ambientes reais, só exemplos
+.env
+.env.*
+.env.json
+amplify.yml
+.amplify.yml
+template.yaml
+samconfig.toml
+
+!*.env.example
+!*.env.json.example
+!*.amplify.yml.example
+!.template.yaml.example
+/data

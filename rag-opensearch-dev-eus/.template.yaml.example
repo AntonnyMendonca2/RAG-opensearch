@@ -1,0 +1,64 @@
+# Exemplo de arquivo template para CloudFormation/SAM
+# Copie para template.yaml e preencha os valores reais
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  RagOpenSearchAPP - Exemplo de template para deploy serverless
+
+Parameters:
+  AmplifyAppUrl:
+    Type: String
+    Description: "URL do front-end hospedado no Amplify (ex: https://main.xxxxx.amplifyapp.com)"
+    Default: "https://main.xxxxx.amplifyapp.com"
+
+Globals:
+  Function:
+    Timeout: 60
+
+Resources:
+  RagOpenSearchApi:
+      Type: AWS::Serverless::Api
+      Properties:
+        StageName: Prod
+        BinaryMediaTypes:
+          - multipart/form-data
+          - application/octet-stream
+          - image/png
+          - image/jpeg
+          - application/pdf
+
+  RagOpenSearchFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: rag-opensearch/
+      Handler: app.handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          elasticsearch_url: ""
+          elasticsearch_apikey: ""
+          OPENAI_API_KEY: ""
+          index_name: ""
+          AMPLIFY_URL: !Ref AmplifyAppUrl
+      Events:
+        ApiGateway:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: any
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  LambdaFunctionArn:
+    Description: "Lambda Function ARN"
+    Value: !GetAtt RagOpenSearchFunction.Arn
+  LambdaFunctionRole:
+    Description: "Lambda Function Role"
+    Value: !GetAtt RagOpenSearchFunctionRole.Arn
+  AmplifyAppUrl:
+    Description: "URL do front-end no Amplify"
+    Value: !Ref AmplifyAppUrl

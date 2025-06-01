@@ -1,6 +1,8 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import tiktoken
 import openai
+from PyPDF2 import PdfReader
+
 
 class Embedding:
     def __init__(self):
@@ -10,11 +12,16 @@ class Embedding:
         encoding = tiktoken.get_encoding(encoding_name)
         return len(encoding.encode(string))
     
-    def return_pdf_content(self, pdf):
-        full_pdf_in_text = ""
-        for page in pdf.pages:
-            full_pdf_in_text += page.extract_text() + "\n"
-        return full_pdf_in_text
+    def return_pdf_content(self, reader: PdfReader) -> str:
+        full_text = ""
+        for page in reader.pages:
+            try:
+                text = page.extract_text()
+                if text:
+                    full_text += text + "\n"
+            except Exception as e:
+                print(f"Erro ao extrair texto da página: {e}")
+        return full_text
     
     def split_text(self, full_pdf_in_text):
         splitter = RecursiveCharacterTextSplitter(

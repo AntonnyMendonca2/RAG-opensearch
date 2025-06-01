@@ -1,0 +1,18 @@
+# Exemplo de arquivo de configuração do Amplify para CI/CD
+# Copie para amplify.yml e ajuste conforme seu projeto
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
