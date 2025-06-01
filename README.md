@@ -4,6 +4,8 @@
 
 Este projeto demonstra uma arquitetura completa de RAG (Retrieval Augmented Generation) utilizando AWS Lambda, OpenSearch, OpenAI e um front-end moderno inspirado no ChatGPT. O objetivo é servir como referência para desenvolvedores que desejam criar aplicações serverless de busca semântica e geração de respostas com integração de IA generativa.
 
+![demonstração](/readme-images/Funcionamento.png)
+
 - **Backend:** API Python FastAPI, empacotada como Lambda, indexa PDFs e responde perguntas usando embeddings e OpenAI.
 - **Frontend:** React responsivo, interface tipo ChatGPT, upload de PDFs e consumo da API.
 - **Infraestrutura:** Deploy automatizado via AWS SAM/CloudFormation e hospedagem do front-end no AWS Amplify.

@@ -5,14 +5,14 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - cd rag-opensearch-react && npm ci
     build:
       commands:
-        - npm run build
+        - cd rag-opensearch-react && npm run build
   artifacts:
-    baseDirectory: dist
+    baseDirectory: rag-opensearch-react/dist
     files:
       - '**/*'
   cache:
     paths:
-      - node_modules/**/*
+      - rag-opensearch-react/node_modules/**/*
