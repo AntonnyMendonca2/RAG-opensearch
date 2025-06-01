@@ -15,14 +15,15 @@ Este projeto demonstra uma arquitetura completa de RAG (Retrieval Augmented Gene
 ## Serviços Utilizados
 - **AWS Lambda** (Python 3.10)
 - **AWS API Gateway** (com suporte a BinaryMediaTypes)
-- **AWS OpenSearch** (Elasticsearch)
 - **AWS Amplify** (hospedagem do front-end)
+- **OpenSearch** (Elasticsearch)
 - **OpenAI API** (para geração de respostas)
 - **FastAPI** (backend)
 - **React + Vite** (frontend)
 
 ## Requisitos
-- Conta AWS com permissões para Lambda, API Gateway, OpenSearch e Amplify
+- Conta AWS com permissões para Lambda, API Gateway e Amplify
+- Criação de uma conta, cluster e index no [ElastiSearch]("https://cloud.elastic.co/")
 - Conta OpenAI com chave de API
 - Node.js 18+ e npm
 - Python 3.10+
@@ -57,6 +58,11 @@ cd rag-opensearch
   ```sh
   uvicorn app:app --reload
   ```
+
+  <div style="background-color:rgb(185, 65, 65);padding:10px;border-left:5px solid red;">
+    <strong>🚨 Atenção:</strong> A responsabilidade pelos custos de hospedar a aplicação é sua! Procure pelos limites do <i>free tier</i> de cada serviço.
+  </div>
+
 - Para deploy na AWS:
   ```sh
   cd ..
@@ -80,8 +86,8 @@ cd rag-opensearch
     - `VITE_API_URL` com o endpoint da API gerado pelo SAM
 
 ## Estrutura dos Endpoints
-- `POST /index-pdf` — Upload de PDF para indexação semântica
 - `POST /ask-model` — Pergunta para o modelo (RAG)
+- `POST /index-pdf` — Upload de PDF para indexação semântica
 
 ## Variáveis de Ambiente do OpenSearch
 
@@ -105,7 +111,7 @@ OpenSearch é uma plataforma de busca, análise e visualização de dados open s
   - Sem custos de serviço, apenas infraestrutura.
 
 ### No seu projeto
-Você está usando um cluster OpenSearch criado manualmente via https://opensearch.org/ (open source puro, não gerenciado pela AWS). Isso significa que:
+Você está usando um cluster OpenSearch criado manualmente via https://opensearch.org/ (Utilizando os 14 dias grátis). Isso significa que:
 - O endpoint (`elasticsearch_url`) é o endereço do seu cluster OpenSearch (pode ser um IP, domínio, etc).
 - A autenticação (`elasticsearch_apikey`) é definida por você (API Key, Basic Auth, etc), não por IAM.
 - Você é responsável por backups, upgrades, segurança e monitoramento.
